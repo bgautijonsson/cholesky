@@ -6,7 +6,7 @@ using namespace Eigen;
 
 // Function to create a 1-dimensional AR(1) precision matrix
 // [[Rcpp::export]]
-Eigen::SparseMatrix<double> make_AR_prec_matrix_sparse(int dim, double rho) {
+Eigen::SparseMatrix<double> make_AR_prec_matrix(int dim, double rho) {
     double scaling = 1.0 / (1.0 - rho * rho);
     double off_diags = -rho * scaling;
     double diag = (1.0 + rho * rho) * scaling;
@@ -26,8 +26,8 @@ Eigen::SparseMatrix<double> make_AR_prec_matrix_sparse(int dim, double rho) {
 
 // Function to create the 2-dimensional Matérn precision matrix using Kronecker products
 // [[Rcpp::export]]
-Eigen::SparseMatrix<double> make_matern_prec_matrix_sparse(int dim, double rho) {
-    Eigen::SparseMatrix<double> Q = make_AR_prec_matrix_sparse(dim, rho);
+Eigen::SparseMatrix<double> make_matern_prec_matrix(int dim, double rho) {
+    Eigen::SparseMatrix<double> Q = make_AR_prec_matrix(dim, rho);
     Eigen::SparseMatrix<double> I = Eigen::SparseMatrix<double>(dim, dim);
     I.setIdentity();
 
@@ -44,7 +44,7 @@ Eigen::SparseMatrix<double> make_matern_prec_matrix_sparse(int dim, double rho) 
 
 // Function to compute marginal variances
 // [[Rcpp::export]]
-Eigen::SparseMatrix<double> compute_marginal_variances_sparse(const Eigen::SparseMatrix<double>& Q) {
+Eigen::SparseMatrix<double> compute_marginal_variances(const Eigen::SparseMatrix<double>& Q) {
     Eigen::SimplicialLLT<Eigen::SparseMatrix<double>> llt(Q);
     int n = Q.rows();
     Eigen::SparseMatrix<double> D(Q.rows(), Q.cols());
@@ -62,12 +62,12 @@ Eigen::SparseMatrix<double> compute_marginal_variances_sparse(const Eigen::Spars
 
 // Function to create the standardized Matérn precision matrix
 // [[Rcpp::export]]
-Eigen::SparseMatrix<double> make_standardized_matern_sparse(int dim, double rho) {
+Eigen::SparseMatrix<double> make_standardized_matern(int dim, double rho) {
     // Create the Matérn precision matrix
-    Eigen::SparseMatrix<double> Q = make_matern_prec_matrix_sparse(dim, rho);
+    Eigen::SparseMatrix<double> Q = make_matern_prec_matrix(dim, rho);
 
     // Compute marginal variances
-    Eigen::SparseMatrix<double> D = compute_marginal_variances_sparse(Q);
+    Eigen::SparseMatrix<double> D = compute_marginal_variances(Q);
 
     Eigen::SparseMatrix<double> Q_standardized = D * Q * D;
 

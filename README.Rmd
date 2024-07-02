@@ -1,0 +1,33 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+
+# cholesky
+
+This directory is for development of fast and memory-efficient code that creates Matérn precision matrices that have been standardized so that their inverse is a correlation matrix.
+
+The package can be installed with 
+
+
+```{r}
+#| eval: false
+pak::pak("bgautijonsson/cholesky")
+```
+
+
+```{r}
+library(cholesky)
+make_standardized_matern(dim = 3, rho = 0.5)
+```

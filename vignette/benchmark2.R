@@ -33,3 +33,24 @@ results |>
   mutate(
     Q_size = glue("{Q_size^2}x{Q_size^2}")
   )
+
+
+
+  my_fun <- function(rho) {
+    bench::mark(
+      "C++" = make_standardized_matern_sparse(20, rho),
+      filter_gc = FALSE,
+      iterations = 10,
+      check = FALSE
+    ) |> 
+      mutate(
+        rho = rho
+      )
+  }
+  
+  
+  results <- map(c(0, 0.25, 0.5, 0.75, 1), my_fun)
+  
+  results |> 
+    list_rbind() |> 
+    select(rho, time = median, memory = mem_alloc) 

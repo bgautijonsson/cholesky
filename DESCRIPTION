@@ -12,3 +12,5 @@ LinkingTo:
     Rcpp,
     RcppEigen
 RoxygenNote: 7.3.1
+URL: https://github.com/bgautijonsson/cholesky
+BugReports: https://github.com/bgautijonsson/cholesky/issues

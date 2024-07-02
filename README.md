@@ -42,3 +42,15 @@ Q |> solve()
 #> [3,] 0.2857143 0.1428571 1.0000000 0.2857143
 #> [4,] 0.1428571 0.2857143 0.2857143 1.0000000
 ```
+
+Creating and standardizing a 1600x1600 precision matrix
+
+``` r
+bench::mark(
+  make_standardized_matern(dim = 40, rho = 0.5)
+)
+#> # A tibble: 1 × 6
+#>   expression                             min median `itr/sec` mem_alloc `gc/sec`
+#>   <bch:expr>                          <bch:> <bch:>     <dbl> <bch:byt>    <dbl>
+#> 1 make_standardized_matern(dim = 40,… 55.5ms 58.3ms      15.9    98.3KB        0
+```

@@ -40,3 +40,11 @@ Q
 Q |> solve()
 ```
 
+Creating and standardizing a 1600x1600 precision matrix
+
+```{r}
+bench::mark(
+  make_standardized_matern(dim = 40, rho = 0.5)
+)
+```
+
